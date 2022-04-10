@@ -1,74 +1,89 @@
 
+
 {
-
-
-    class Question {
-        constructor(questionId, answer) {
-            this.questionId = questionId;
-            this.answer = answer;
-        }
-
-        checkAnswer(correctAnswer) {
-            return this.answer === correctAnswer;
-        }
-    }
-
     class Student {
+        //holds correct answer or student's answer
         constructor(studentId, answers = []) {
             this.studentId = studentId;
             this.answers = answers;
         }
+
         addAnswer(question) {
             this.answers.push(question);
         }
     }
 
-
-    class Quiz {
-        constructor(questionsArray = [], students = []) {
-            this.questions = new Map();
-            //TODO: add line to convert questionArray to Map questions
-
-            questionsArray.forEach(question => this.questions.set(question.questionId
-                , question.answer));
-
-            this.students = students;
+    class Question {
+        constructor(question, answer) {
+            this.question = question;
+            this.answer = answer;
         }
-        scoreStudent(studentId) {
-            //TODO: compute student score based on answers
-            let student = this.students.filter(student => student.studentId === studentId)[0];
-            return student.answers.reduce((sum, currentQuestion) => {
-                let questionId = currentQuestion.questionId; //finding que id
-                let correctAnswer = this.questions.get(questionId);
-                let result = currentQuestion.checkAnswer(correctAnswer); //comparing
 
-                if (result) {
-                    sum = sum + 1;
-                }
-                // if(currentQuestion.checkAnswer(this.questions.get(currentQuestion.questionId))) {
-                // sum = sum + 1;
-                // }
-                return sum;
-            }, 0);
-        }
-        getAverageScore() {
-            return this.students.reduce((average, currentStudent, index, array) =>
-                average + this.scoreStudent(currentStudent.studentId) / array.length, 0);
+        //check if student's answer is correct
+        checkAnswer(correctAnswer) {
+            returncorrectAnswer.answer === this.answers;
         }
     }
-    const questionsArraywithCorrectAnswers =
-        [new Question(1, 'a'), new Question(2, 'b'), new Question(3, 'd')];
 
-    let student1 = new Student(1001, [new Question(1, 'b'), new Question(2, 'b'), new
-        Question(3, 'b')]);
+    class Quiz {
+        
+        constructor(questions = [], students = []) {
+            this.question = questions;
+            this.students = students;
+        }
 
-    let student2 = new Student(1002);
-    student2.addAnswer(new Question(1, 'a'));
-    student2.addAnswer(new Question(2, 'b'));
-    student2.addAnswer(new Question(3, 'd'));
-    const students = [student1, student2];
-    let quizObj = new Quiz(questionsArraywithCorrectAnswers, students);
-    console.log(quizObj.scoreStudent(1001));
-    console.log(quizObj.scoreStudent(1002));
-    console.log('avg is: ' + quizObj.getAverageScore());
+        //computing quiz score for given student
+        scoreStudentBySid(sid) {
+            letans = 0;
+            this.students
+                .find((x) => x.studentId === sid)
+                .answers.forEach((x) => {
+                    this.question.forEach((y) => {
+                        if (y.question === x.question && y.answer === x.answer) {
+                            ans++;
+                        }
+                    });
+                });
+            returnans;
+        }
+
+        // computing average score
+        getAverageScore() {
+            letsum = 0;
+            this.students.forEach(x => {
+                sum += this.scoreStudentBySid(x.studentId)
+            });
+
+            returnsum / this.students.length;
+        }
+    }
+
+    conststudent1 = newStudent(10);
+    student1.addAnswer(newQuestion(2, "a"));
+    student1.addAnswer(newQuestion(3, "b"));
+    student1.addAnswer(newQuestion(1, "b"));
+
+    conststudent2 = newStudent(11);
+    student2.addAnswer(newQuestion(3, "b"));
+    student2.addAnswer(newQuestion(2, "a"));
+    student2.addAnswer(newQuestion(1, "d"));
+
+    conststudents = [student1, student2];
+
+    constquestions = [
+        newQuestion(1, "b"),
+        newQuestion(2, "a"),
+        newQuestion(3, "b"),
+    ];
+
+    constquiz = newQuiz(questions, students);
+    letscoreforStudent10 = quiz.scoreStudentBySid(10);
+    console.log(scoreforStudent10);
+
+    letscoreforStudent11 = quiz.scoreStudentBySid(11);
+    console.log(scoreforStudent11);
+
+    letaverage = quiz.getAverageScore();
+    console.log('Average is: ' + average); //printing the avg
+
 }
